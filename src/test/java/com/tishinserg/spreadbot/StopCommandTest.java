@@ -7,7 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import static com.tishinserg.spreadbot.command.CommandName.STOP;
 import static com.tishinserg.spreadbot.command.StopCommand.STOP_MESSAGE;
 
-@DisplayName("Unit-level testing for StartCommandTest")
+@DisplayName("Unit-level testing for StopCommandTest")
 public class StopCommandTest extends AbstractCommandTest {
     @Override
     String getCommandName() {
