@@ -4,6 +4,7 @@ import com.tishinserg.spreadbot.bot.SpreadBotTelegram;
 import com.tishinserg.spreadbot.command.Command;
 import com.tishinserg.spreadbot.service.SendBotMessageService;
 import com.tishinserg.spreadbot.service.SendBotMessageServiceImpl;
+import com.tishinserg.spreadbot.service.TelegramUserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -14,6 +15,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 abstract class AbstractCommandTest {
     protected SpreadBotTelegram spreadBotTelegram = Mockito.mock(SpreadBotTelegram.class);
     protected SendBotMessageService sendBotMessageService = new SendBotMessageServiceImpl(spreadBotTelegram);
+    protected TelegramUserService telegramUserService = Mockito.mock(TelegramUserService.class);
 
     abstract String getCommandName();
     abstract String getCommandMessage();

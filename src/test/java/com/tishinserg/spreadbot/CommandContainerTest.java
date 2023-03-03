@@ -5,7 +5,9 @@ import com.tishinserg.spreadbot.command.Command;
 import com.tishinserg.spreadbot.command.CommandContainer;
 import com.tishinserg.spreadbot.command.CommandName;
 import com.tishinserg.spreadbot.command.UnknownCommand;
+import com.tishinserg.spreadbot.repository.entity.TelegramUser;
 import com.tishinserg.spreadbot.service.SendBotMessageService;
+import com.tishinserg.spreadbot.service.TelegramUserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +25,8 @@ class CommandContainerTest {
     @BeforeEach
     public void init() {
         SendBotMessageService sendBotMessageService = Mockito.mock(SendBotMessageService.class);
-        commandContainer = new CommandContainer(sendBotMessageService);
+        TelegramUserService telegramUserService = Mockito.mock(TelegramUserService.class);
+        commandContainer = new CommandContainer(sendBotMessageService, telegramUserService);
     }
 
     @Test
