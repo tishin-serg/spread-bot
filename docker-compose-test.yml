@@ -2,8 +2,9 @@ version: "3.9"
 services:
   sb-db:
     image: postgres
+    restart: always
     environment:
-      - POSTGRES_USER=root
+      - POSTGRES_USER=root1
       - POSTGRES_DB=dev_sb_db
       - POSTGRES_PASSWORD=pgpwd4habr
     ports:
