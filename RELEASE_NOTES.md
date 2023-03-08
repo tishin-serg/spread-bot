@@ -1,3 +1,7 @@
+## 0.4.0-SNAPSHOT
+
+*   SB-4: added repository layer.
+
 ## 0.3.0-SNAPSHOT
 *   SB-3: added deployment process to the project
 
