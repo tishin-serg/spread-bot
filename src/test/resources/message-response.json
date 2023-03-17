@@ -1,0 +1,25 @@
+{
+  "message": null,
+  "fees": [
+    {
+      "name": "Перевод в страну Грузия",
+      "acceptedAmount": 152760,
+      "acceptedCurrency": "RUB",
+      "withdrawAmount": 2000,
+      "withdrawCurrency": "USD",
+      "rate": 0.01309243,
+      "acceptedTotalFee": 0,
+      "acceptedTotalFeeCurrency": "RUB"
+    },
+    {
+      "name": "Перевод в страну Грузия",
+      "acceptedAmount": 152912,
+      "acceptedCurrency": "RUB",
+      "withdrawAmount": 2000,
+      "withdrawCurrency": "USD",
+      "rate": 0.01307942,
+      "acceptedTotalFee": 0,
+      "acceptedTotalFeeCurrency": "RUB"
+    }
+  ]
+}
