@@ -1,3 +1,7 @@
+## 0.5.0-SNAPSHOT
+
+*   SB-5: added parsing service from unistream.com and repository layer for unistreamRate entities
+
 ## 0.4.0-SNAPSHOT
 
 *   SB-4: added repository layer.
