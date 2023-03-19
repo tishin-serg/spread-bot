@@ -1,8 +1,10 @@
 package com.tishinserg.spreadbot.bot;
 
 import com.tishinserg.spreadbot.command.CommandContainer;
+import com.tishinserg.spreadbot.parsing.UnistreamRateParsingService;
 import com.tishinserg.spreadbot.service.SendBotMessageServiceImpl;
 import com.tishinserg.spreadbot.service.TelegramUserService;
+import com.tishinserg.spreadbot.service.UnistreamRateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -22,8 +24,8 @@ public class SpreadBotTelegram extends TelegramLongPollingBot {
     private String username;
 
     @Autowired
-    public SpreadBotTelegram(TelegramUserService telegramUserService) {
-        this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this), telegramUserService);
+    public SpreadBotTelegram(TelegramUserService telegramUserService, UnistreamRateService unistreamRateService) {
+        this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this), telegramUserService, unistreamRateService);
     }
 
     @Override
