@@ -7,7 +7,10 @@ public enum CommandName {
     HELP("/help"),
     NO(" "),
     STAT("/stat"),
-    UNI("/uni");
+    UNI("/uni"),
+    SUB("/subscribe"),
+    UN_SUB("/unsubscribe"),
+    SUBSCRIPTIONS("/grouplist");
 
 
     private final String commandName;

@@ -16,14 +16,13 @@ public interface UnistreamRateService {
     void save(UnistreamRate unistreamRate);
 
     /**
-     * Return provided {@link UnistreamRate} entity last record.
-     */
-    UnistreamRate findLastRate();
-
-    /**
      * Return provided {@link UnistreamRate} entity with actual rate from unistream.com
      */
-    UnistreamRate getActualRate();
+    UnistreamRate getCurrentRate(String countryName, String currencyFrom, String currencyTo);
+
+    Boolean compareUnistreamRates(UnistreamRate lastUnistreamRateFromDb, UnistreamRate currentUnistreamRate);
+
+    UnistreamRate getLastRate(String country, String currency);
 
 
 }

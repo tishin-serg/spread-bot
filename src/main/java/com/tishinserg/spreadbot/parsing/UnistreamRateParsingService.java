@@ -7,9 +7,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import static com.tishinserg.spreadbot.parsing.CountryName.GEORGIA;
-import static com.tishinserg.spreadbot.parsing.CurrencyName.RUBLE;
-import static com.tishinserg.spreadbot.parsing.CurrencyName.US_DOLLAR;
+// todo перенес хедеры сюда из appconfig чтобы было легче тестировать. как правильно?
 
 @Component
 @RequiredArgsConstructor
@@ -21,19 +19,19 @@ public class UnistreamRateParsingService {
     // https://online.unistream.ru/card2cash/calculate?payout_type=cash&destination=GEO&amount=2000&currency=USD
     // &accepted_currency=RUB&profile=unistream&promo_id=445859
 
-    public UnistreamAnswerModel getRate() {
+
+    public UnistreamAnswerModel getRate(String countryName, String currencyFrom, String currencyTo) {
         return uniRateParsingServiceWebClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .queryParam("payout_type", "cash")
-                        .queryParam("destination", GEORGIA.getCountryName())
+                        .queryParam("destination", countryName)
                         .queryParam("amount", 2000)
-                        .queryParam("currency", US_DOLLAR.getCurrencyName())
-                        .queryParam("accepted_currency", RUBLE.getCurrencyName())
+                        .queryParam("currency", currencyFrom)
+                        .queryParam("accepted_currency", currencyTo)
                         .queryParam("profile", "unistream")
                         .queryParam("promo_id", parsingServiceProperties.getPromoId())
                         .build())
-                // todo перенес хедеры сюда из appconfig чтобы было легче тестировать. как правильно?
-                .header("authorization",parsingServiceProperties.getToken())
+                .header("authorization", parsingServiceProperties.getToken())
                 .header("user-agent", parsingServiceProperties.getUserAgent())
                 .retrieve()
                 .bodyToMono(UnistreamAnswerModel.class)

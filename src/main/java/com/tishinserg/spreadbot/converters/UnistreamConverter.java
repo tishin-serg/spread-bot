@@ -5,6 +5,8 @@ import com.tishinserg.spreadbot.repository.entity.UnistreamRate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 // todo уточнить уместно ли использовать метод этого класса статическим
@@ -12,10 +14,13 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class UnistreamConverter {
 
-    public static UnistreamRate jSonToEntity(UnistreamAnswerDetailedJson unistreamAnswerDetailedJson) {
+
+    public static UnistreamRate jSonToEntity(UnistreamAnswerDetailedJson unistreamAnswerDetailedJson, String countryName) {
         UnistreamRate unistreamRate = new UnistreamRate();
-        unistreamRate.setCurrency(unistreamAnswerDetailedJson.getAcceptedCurrency());
-        Double rate = unistreamAnswerDetailedJson.getAcceptedAmount() / unistreamAnswerDetailedJson.getWithdrawAmount();
+        unistreamRate.setCountry(countryName);
+        unistreamRate.setCurrency(unistreamAnswerDetailedJson.getWithdrawCurrency());
+        BigDecimal rate = BigDecimal.valueOf(unistreamAnswerDetailedJson.getAcceptedAmount())
+                .divide(BigDecimal.valueOf(unistreamAnswerDetailedJson.getWithdrawAmount()), 2, RoundingMode.CEILING);
         unistreamRate.setRate(rate);
         unistreamRate.setDate(LocalDateTime.now());
         return unistreamRate;
