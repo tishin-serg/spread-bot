@@ -1,3 +1,7 @@
+## 0.6.0-SNAPSHOT
+
+*   SB-6: added ability for subscribe for changing rates
+
 ## 0.5.0-SNAPSHOT
 
 *   SB-5: added parsing service from unistream.com and repository layer for unistreamRate entities

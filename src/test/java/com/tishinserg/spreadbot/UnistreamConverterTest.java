@@ -6,6 +6,7 @@ import com.tishinserg.spreadbot.repository.entity.UnistreamRate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class UnistreamConverterTest {
@@ -16,23 +17,21 @@ public class UnistreamConverterTest {
     void shouldProperlyConvertJsonToEntity() {
         //given
         UnistreamRate givenEntity = new UnistreamRate();
-        givenEntity.setCurrency("RUB");
-        givenEntity.setRate(50.0);
+        givenEntity.setCurrency("USD");
+        givenEntity.setCountry("GEO");
+        givenEntity.setRate(BigDecimal.valueOf(43.48));
         givenEntity.setDate(LocalDateTime.now());
 
         UnistreamAnswerDetailedJson givenJson = new UnistreamAnswerDetailedJson();
-        givenJson.setAcceptedCurrency("RUB");
+        givenJson.setWithdrawCurrency("USD");
         givenJson.setAcceptedAmount(1000.0);
-        givenJson.setWithdrawAmount(20.0);
+        givenJson.setWithdrawAmount(23.0);
 
         //when
-        UnistreamRate converted = UnistreamConverter.jSonToEntity(givenJson);
+        UnistreamRate converted = UnistreamConverter.jSonToEntity(givenJson, "GEO");
 
         //then
         Assertions.assertEquals(givenEntity.getRate(), converted.getRate());
         Assertions.assertEquals(givenEntity.getCurrency(), converted.getCurrency());
-
-
-
     }
 }

@@ -3,6 +3,7 @@ package com.tishinserg.spreadbot.repository.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -16,11 +17,14 @@ public class UnistreamRate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "country")
+    private String country;
+
     @Column(name = "currency")
     private String currency;
 
     @Column(name = "rate")
-    private Double rate;
+    private BigDecimal rate;
 
     @Column(name = "date")
     private LocalDateTime date;
@@ -30,14 +34,15 @@ public class UnistreamRate {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UnistreamRate that = (UnistreamRate) o;
-        return id.equals(that.id) &&
-                currency.equals(that.currency) &&
-                rate.equals(that.rate) &&
-                date.equals(that.date);
+        return Objects.equals(id, that.id) &&
+                Objects.equals(country, that.country) &&
+                Objects.equals(currency, that.currency) &&
+                Objects.equals(rate, that.rate) &&
+                Objects.equals(date, that.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, currency, rate, date);
+        return Objects.hash(id, country, currency, rate, date);
     }
 }

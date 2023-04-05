@@ -1,12 +1,7 @@
-package com.tishinserg.spreadbot;
+package com.tishinserg.spreadbot.command;
 
 
-import com.tishinserg.spreadbot.command.Command;
-import com.tishinserg.spreadbot.command.CommandContainer;
-import com.tishinserg.spreadbot.command.CommandName;
-import com.tishinserg.spreadbot.command.UnknownCommand;
-import com.tishinserg.spreadbot.parsing.UnistreamRateParsingService;
-import com.tishinserg.spreadbot.repository.entity.TelegramUser;
+import com.tishinserg.spreadbot.service.GroupSubService;
 import com.tishinserg.spreadbot.service.SendBotMessageService;
 import com.tishinserg.spreadbot.service.TelegramUserService;
 import com.tishinserg.spreadbot.service.UnistreamRateService;
@@ -29,7 +24,8 @@ class CommandContainerTest {
         SendBotMessageService sendBotMessageService = Mockito.mock(SendBotMessageService.class);
         TelegramUserService telegramUserService = Mockito.mock(TelegramUserService.class);
         UnistreamRateService unistreamRateService = Mockito.mock(UnistreamRateService.class);
-        commandContainer = new CommandContainer(sendBotMessageService, telegramUserService, unistreamRateService);
+        GroupSubService groupSubService = Mockito.mock(GroupSubService.class);
+        commandContainer = new CommandContainer(sendBotMessageService, telegramUserService, unistreamRateService, groupSubService);
     }
 
     @Test

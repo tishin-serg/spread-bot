@@ -1,13 +1,10 @@
-package com.tishinserg.spreadbot;
+package com.tishinserg.spreadbot.service;
 
 
 import com.tishinserg.spreadbot.bot.SpreadBotTelegram;
-import com.tishinserg.spreadbot.service.SendBotMessageService;
-import com.tishinserg.spreadbot.service.SendBotMessageServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -38,7 +35,5 @@ public class SendBotMessageServiceTest {
 
         //then
         Mockito.verify(spreadBotTelegram).execute(sendMessage);
-
-
     }
 }
