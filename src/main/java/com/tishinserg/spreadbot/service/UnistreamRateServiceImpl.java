@@ -1,12 +1,14 @@
 package com.tishinserg.spreadbot.service;
 
 import com.tishinserg.spreadbot.converters.UnistreamConverter;
+import com.tishinserg.spreadbot.models.UnistreamAnswerDetailedJson;
 import com.tishinserg.spreadbot.parsing.UnistreamRateParsingService;
 import com.tishinserg.spreadbot.repository.UnistreamRateRepository;
 import com.tishinserg.spreadbot.repository.entity.UnistreamRate;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
@@ -19,19 +21,24 @@ public class UnistreamRateServiceImpl implements UnistreamRateService {
         unistreamRateRepository.save(unistreamRate);
     }
 
-    //todo возвращать optional
+    //todo корректно ли использовать этот метод здесь, а не в unistreamRateParsingService
     @Override
-    public UnistreamRate findLastRate() {
-        return unistreamRateRepository.findTopByOrderByIdDesc();
+    public UnistreamRate getCurrentRate(String countryName, String currencyFrom, String currencyTo) {
+        UnistreamAnswerDetailedJson json =
+                unistreamRateParsingService.getRate(countryName, currencyFrom, currencyTo).getFees().get(0);
+        return UnistreamConverter.jSonToEntity(json, countryName);
+    }
+
+    //todo вынести шаг изменения цены в проперти
+    @Override
+    public Boolean compareUnistreamRates(UnistreamRate lastUnistreamRateFromDb, UnistreamRate currentUnistreamRate) {
+        if (lastUnistreamRateFromDb == null) return true;
+        return currentUnistreamRate.getRate().subtract(lastUnistreamRateFromDb.getRate()).abs().compareTo(BigDecimal.valueOf(0.05)) >= 0;
     }
 
     @Override
-    public UnistreamRate getActualRate() {
-        return UnistreamConverter.jSonToEntity(unistreamRateParsingService.getRate().getFees().get(0));
-    }
-
-    // @Scheduled(fixedRate = 15000)
-    public void saveActualRate() {
-        unistreamRateRepository.save(getActualRate());
+    public UnistreamRate getLastRate(String country, String currency) {
+        return unistreamRateRepository.findLastRateCurrency(country, currency);
     }
 }
+

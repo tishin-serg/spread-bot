@@ -1,8 +1,6 @@
-package com.tishinserg.spreadbot;
+package com.tishinserg.spreadbot.command;
 
 
-import com.tishinserg.spreadbot.command.Command;
-import com.tishinserg.spreadbot.command.HelpCommand;
 import org.junit.jupiter.api.DisplayName;
 
 import static com.tishinserg.spreadbot.command.CommandName.HELP;

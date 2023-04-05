@@ -44,7 +44,7 @@ public class UnistreamRateParsingServiceTest {
                         .setBody(getJson("message-response.json"))
         );
 
-        unistreamRateParsingService.getRate();
+        unistreamRateParsingService.getRate("GEO", "USD", "RUB");
 
         RecordedRequest request = mockWebServer.takeRequest();
         assertThat(request.getMethod()).isEqualTo("GET");

@@ -1,13 +1,11 @@
-package com.tishinserg.spreadbot;
-
-import com.tishinserg.spreadbot.command.Command;
-import com.tishinserg.spreadbot.command.UniCommand;
+package com.tishinserg.spreadbot.command;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import static com.tishinserg.spreadbot.command.CommandName.UNI;
 
+// todo тестировать эту команду отдельно
 public class UniCommandTest extends AbstractCommandTest {
     @Override
     String getCommandName() {

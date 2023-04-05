@@ -11,8 +11,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration-level testing for {@link UnistreamRateRepositoryIT}.
@@ -27,30 +30,32 @@ public class UnistreamRateRepositoryIT {
     @Autowired
     private UnistreamRateRepository unistreamRateRepository;
 
-    @Sql(scripts = {"/sql/clearDbs.sql", "/sql/uni_rate.sql"})
+    @Sql(scripts = {"/sql/clear_uni_rate.sql", "/sql/uni_rate.sql"})
     @Test
-    public void shouldProperlyFindTopByOrderByIdDesc() {
+    public void shouldProperlyFindLastRateCurrency() {
         //given
         UnistreamRate givenUnistreamRate = new UnistreamRate();
-        givenUnistreamRate.setId(5L);
-        givenUnistreamRate.setCurrency("RUB");
-        givenUnistreamRate.setRate(77.22);
-        givenUnistreamRate.setDate(LocalDateTime.of(2023, 3, 17, 0, 0, 0));
+        givenUnistreamRate.setId(2L);
+        givenUnistreamRate.setCurrency("USD");
+        givenUnistreamRate.setCountry("GEO");
+        givenUnistreamRate.setRate(BigDecimal.valueOf(77.01));
+        givenUnistreamRate.setDate(LocalDateTime.of(2023, 3, 16, 23, 10, 0));
 
         //when
-        UnistreamRate unistreamRate = unistreamRateRepository.findTopByOrderByIdDesc();
+        UnistreamRate unistreamRate = unistreamRateRepository.findLastRateCurrency("GEO", "USD");
 
         //then
-        Assertions.assertEquals(unistreamRate, givenUnistreamRate);
+        assertThat(unistreamRate).isEqualTo(givenUnistreamRate);
     }
 
-    @Sql(scripts = {"/sql/clearDbs.sql"})
+    @Sql(scripts = {"/sql/clear_uni_rate.sql"})
     @Test
     public void shouldProperlySaveUnistreamRate() {
         //given
         UnistreamRate unistreamRate = new UnistreamRate();
-        unistreamRate.setCurrency("RUB");
-        unistreamRate.setRate(77.22);
+        unistreamRate.setCurrency("USD");
+        unistreamRate.setCountry("GEO");
+        unistreamRate.setRate(BigDecimal.valueOf(77.22));
         unistreamRate.setDate(LocalDateTime.of(2023, 3, 17, 0, 0, 0));
         unistreamRateRepository.save(unistreamRate);
 
@@ -58,8 +63,8 @@ public class UnistreamRateRepositoryIT {
         Optional<UnistreamRate> saved = unistreamRateRepository.findById(unistreamRate.getId());
 
         //then
-        Assertions.assertTrue(saved.isPresent());
-        Assertions.assertEquals(unistreamRate, saved.get());
+        assertThat(saved.isPresent()).isTrue();
+        assertThat(unistreamRate).isEqualTo(saved.get());
     }
 
 

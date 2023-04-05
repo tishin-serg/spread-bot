@@ -31,7 +31,7 @@ public class StartCommand implements Command {
                 () -> {
                     TelegramUser telegramUser = new TelegramUser();
                     telegramUser.setActive(true);
-                    telegramUser.setChat_id(chatId);
+                    telegramUser.setChatId(chatId);
                     telegramUserService.save(telegramUser);
                 }
         );

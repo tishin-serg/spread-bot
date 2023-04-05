@@ -1,7 +1,4 @@
-package com.tishinserg.spreadbot;
-
-import com.tishinserg.spreadbot.command.Command;
-import com.tishinserg.spreadbot.command.UnknownCommand;
+package com.tishinserg.spreadbot.command;
 
 import static com.tishinserg.spreadbot.command.UnknownCommand.UNKNOWN_MESSAGE;
 

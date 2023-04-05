@@ -6,6 +6,7 @@ import com.tishinserg.spreadbot.service.UnistreamRateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -29,10 +30,10 @@ public class UniCommand implements Command {
         // todo переписать
 //        Double rate = UnistreamConverter.jSonToEntity(unistreamRateParsingService.getRate().getFees().get(0)).getRate();
 //        sendBotMessageService.sendMessage(update.getMessage().getChatId().toString(), String.format(UNI_MESSAGE, rate));
-        UnistreamRate rateModel = unistreamRateService.findLastRate();
+        UnistreamRate rateModel = unistreamRateService.getCurrentRate("GEO", "USD", "RUB");
         LocalDateTime localDateTime = rateModel.getDate();
         String date = localDateTime.format(DateTimeFormatter.ofPattern("HH:mm:ss dd.MM.yyyy"));
-        Double rate = rateModel.getRate();
+        BigDecimal rate = rateModel.getRate();
         sendBotMessageService.sendMessage(update.getMessage().getChatId().toString(), String.format(UNI_MESSAGE, rate, date));
     }
 }
