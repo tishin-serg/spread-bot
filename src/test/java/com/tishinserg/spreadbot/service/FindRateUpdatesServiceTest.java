@@ -1,23 +1,24 @@
 package com.tishinserg.spreadbot.service;
 
+import com.tishinserg.spreadbot.models.Rate;
 import com.tishinserg.spreadbot.repository.entity.GroupSub;
-import com.tishinserg.spreadbot.repository.entity.TelegramUser;
-import com.tishinserg.spreadbot.repository.entity.UnistreamRate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Unit-level testing for FindRateUpdatesService")
@@ -30,49 +31,54 @@ public class FindRateUpdatesServiceTest {
     @Mock
     private SendBotMessageService sendBotMessageService;
     @Mock
-    private UnistreamRateService unistreamRateService;
+    private RateService rateService;
+    @Mock
+    private RateServiceFactory rateServiceFactory;
+
+//    @Test
+//    public void shouldProperlyFindRateUpdates() {
+//
+//        // given
+//        GroupSub groupSub1 = new GroupSub();
+//        groupSub1.setId(1L);
+//        GroupSub groupSub2 = new GroupSub();
+//        groupSub2.setId(2L);
+//        GroupSub groupSub3 = new GroupSub();
+//        groupSub3.setId(3L);
+//        List<GroupSub> groupSubs = new ArrayList<>(Arrays.asList(groupSub1, groupSub2, groupSub3));
+//        when(groupSubService.findAllGroups()).thenReturn(groupSubs);
+//        //todo
+////        FindRateUpdatesServiceImpl spyService = Mockito.spy(new FindRateUpdatesServiceImpl(groupSubService,
+////                sendBotMessageService, rateServiceFactory, unistreamRateService));
+////
+////        // when
+////        spyService.findRateUpdates();
+////
+////        // then
+////        verify(groupSubService, times(1)).findAllGroups();
+////        verify(spyService, times(groupSubs.size())).compareRatesAndNotify(any(GroupSub.class));
+//    }
 
     @Test
-    public void shouldProperlyFindRateUpdates() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public void shouldProperlySendMessageIfRateChange() {
         //given
-        TelegramUser telegramUser = new TelegramUser();
-        telegramUser.setChatId("123");
-        telegramUser.setActive(true);
-        List<TelegramUser> telegramUsers = new ArrayList<>();
-        telegramUsers.add(telegramUser);
-        List<GroupSub> groupSubs = new ArrayList<>();
         GroupSub groupSub = new GroupSub();
-        groupSub.setCountry("GEO");
-        groupSub.setCurrencyFrom("USD");
-        groupSub.setCurrencyTo("RUB");
-        groupSub.setUsers(telegramUsers);
-        groupSubs.add(groupSub);
-
-        UnistreamRate currentRate = new UnistreamRate();
-        currentRate.setCountry("GEO");
-        currentRate.setCurrency("USD");
-        currentRate.setDate(LocalDateTime.now());
-        currentRate.setRate(BigDecimal.valueOf(77.05));
-
-        UnistreamRate lastRate = new UnistreamRate();
-        lastRate.setCountry("GEO");
-        lastRate.setCurrency("USD");
-        lastRate.setDate(LocalDateTime.now().minusDays(1));
-        lastRate.setRate(BigDecimal.valueOf(77.00));
-
-        when(groupSubService.findAllGroups()).thenReturn(groupSubs);
-        when(unistreamRateService.getCurrentRate("GEO", "USD", "RUB")).thenReturn(currentRate);
-        when(unistreamRateService.getLastRate("GEO", "USD")).thenReturn(lastRate);
+        groupSub.setService("unistream");
+        when(rateServiceFactory.createInstance(groupSub.getService())).thenReturn(rateService);
+        Rate currentRate = new Rate();
+        currentRate.setRate(BigDecimal.valueOf(70));
+        Rate lastRate = new Rate();
+        lastRate.setRate(BigDecimal.valueOf(71));
+        when(rateService.getCurrentRate(groupSub)).thenReturn(CompletableFuture.completedFuture(currentRate));
+        when(rateService.getLastRate(groupSub)).thenReturn(Optional.of(lastRate));
 
         //when
-        findRateUpdatesService.findRateUpdates();
+        findRateUpdatesService.compareRatesAndNotify(groupSub);
 
         //then
-
-        verify(unistreamRateService).compareUnistreamRates(lastRate, currentRate);
-        verify(unistreamRateService).save(currentRate);
-
-
+        assertThat(groupSub.getLastRate()).isEqualTo(currentRate.getRate());
+        verify(groupSubService).save(groupSub);
+        verify(rateService).save(currentRate, groupSub);
     }
 
 

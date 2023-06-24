@@ -1,5 +1,6 @@
 package com.tishinserg.spreadbot.command;
 
+import com.tishinserg.spreadbot.models.RequestDetails;
 import com.tishinserg.spreadbot.repository.entity.GroupSub;
 import com.tishinserg.spreadbot.repository.entity.TelegramUser;
 import com.tishinserg.spreadbot.service.SendBotMessageService;
@@ -52,17 +53,19 @@ public class GroupListCommandTest {
         GroupSub groupSub1 = new GroupSub();
         groupSub1.setId(1L);
         groupSub1.setService("unistream");
-        groupSub1.setCountry("GEO");
+        groupSub1.setRequestDetails(new RequestDetails("GEO"));
         groupSub1.setCurrencyFrom("USD");
         groupSub1.setCurrencyTo("RUB");
         groupSub1.setTittle("Юнистрим - Перевод в Грузию - USD/RUB");
+
         GroupSub groupSub2 = new GroupSub();
         groupSub2.setId(2L);
         groupSub2.setService("unistream");
-        groupSub2.setCountry("GEO");
+        groupSub2.setRequestDetails(new RequestDetails("GEO"));
         groupSub2.setCurrencyFrom("GEL");
         groupSub2.setCurrencyTo("RUB");
         groupSub2.setTittle("Юнистрим - Перевод в Грузию - GEL/RUB");
+
         List<GroupSub> groupSubs = Arrays.asList(
                 groupSub1,
                 groupSub2
@@ -89,9 +92,11 @@ public class GroupListCommandTest {
         GroupSub groupSub = new GroupSub();
         groupSub.setId(1L);
         groupSub.setService("unistream");
-        groupSub.setCountry("GEO");
+        groupSub.setRequestDetails(new RequestDetails("GEO"));
         groupSub.setCurrencyFrom("USD");
         groupSub.setCurrencyTo("RUB");
+        groupSub.setTittle("Юнистрим - Перевод в Грузию - USD/RUB");
+
         List<GroupSub> groupSubs = Collections.singletonList(groupSub);
         TelegramUser telegramUser = new TelegramUser();
         telegramUser.setChatId(chatId);
@@ -112,19 +117,20 @@ public class GroupListCommandTest {
 
         GroupSub groupSub1 = new GroupSub();
         groupSub1.setId(1L);
-        groupSub1.setCountry("GEO");
+        groupSub1.setService("unistream");
+        groupSub1.setRequestDetails(new RequestDetails("GEO"));
         groupSub1.setCurrencyFrom("USD");
         groupSub1.setCurrencyTo("RUB");
-        groupSub1.setService("unistream");
         groupSub1.setTittle("Юнистрим - Перевод в Грузию - USD/RUB");
 
         GroupSub groupSub2 = new GroupSub();
         groupSub2.setId(2L);
-        groupSub2.setCountry("GEO");
+        groupSub2.setService("unistream");
+        groupSub2.setRequestDetails(new RequestDetails("GEO"));
         groupSub2.setCurrencyFrom("GEL");
         groupSub2.setCurrencyTo("RUB");
-        groupSub2.setService("unistream");
         groupSub2.setTittle("Юнистрим - Перевод в Грузию - GEL/RUB");
+
 
         List<GroupSub> groupSubList = Arrays.asList(groupSub1, groupSub2);
         TelegramUser telegramUser = new TelegramUser();

@@ -1,6 +1,8 @@
 package com.tishinserg.spreadbot.configs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tishinserg.spreadbot.properties.BinanceRateParsingServiceProperties;
+import com.tishinserg.spreadbot.properties.BinanceRateParsingServiceTimeoutProperties;
 import com.tishinserg.spreadbot.properties.UnistreamRateParsingServiceProperties;
 import com.tishinserg.spreadbot.properties.UnistreamRateParsingServiceTimeoutProperties;
 import io.netty.channel.ChannelOption;
@@ -20,24 +22,43 @@ import java.util.concurrent.TimeUnit;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableConfigurationProperties(UnistreamRateParsingServiceTimeoutProperties.class)
+@EnableConfigurationProperties({UnistreamRateParsingServiceTimeoutProperties.class, BinanceRateParsingServiceTimeoutProperties.class})
 public class AppConfig {
-    private final UnistreamRateParsingServiceProperties parsingServiceProperties;
-    private final UnistreamRateParsingServiceTimeoutProperties timeoutProperties;
+    private final UnistreamRateParsingServiceProperties unistreamRateParsingServiceProperties;
+    private final UnistreamRateParsingServiceTimeoutProperties unistreamRateParsingServiceTimeoutProperties;
+    private final BinanceRateParsingServiceProperties binanceRateParsingServiceProperties;
+    private final BinanceRateParsingServiceTimeoutProperties binanceRateParsingServiceTimeoutProperties;
 
     @Bean
     public WebClient uniRateParsingServiceWebClient() {
         TcpClient tcpClient = TcpClient
                 .create()
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, timeoutProperties.getConnect())
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, unistreamRateParsingServiceTimeoutProperties.getConnect())
                 .doOnConnected(connection -> {
-                    connection.addHandlerLast(new ReadTimeoutHandler(timeoutProperties.getRead(), TimeUnit.MILLISECONDS));
-                    connection.addHandlerLast(new WriteTimeoutHandler(timeoutProperties.getWrite(), TimeUnit.MILLISECONDS));
+                    connection.addHandlerLast(new ReadTimeoutHandler(unistreamRateParsingServiceTimeoutProperties.getRead(), TimeUnit.MILLISECONDS));
+                    connection.addHandlerLast(new WriteTimeoutHandler(unistreamRateParsingServiceTimeoutProperties.getWrite(), TimeUnit.MILLISECONDS));
                 });
 
         return WebClient
                 .builder()
-                .baseUrl(parsingServiceProperties.getUrl())
+                .baseUrl(unistreamRateParsingServiceProperties.getUrl())
+                .clientConnector(new ReactorClientHttpConnector(HttpClient.from(tcpClient)))
+                .build();
+    }
+
+    @Bean
+    public WebClient binanceRateParsingServiceWebClient() {
+        TcpClient tcpClient = TcpClient
+                .create()
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, binanceRateParsingServiceTimeoutProperties.getConnect())
+                .doOnConnected(connection -> {
+                    connection.addHandlerLast(new ReadTimeoutHandler(binanceRateParsingServiceTimeoutProperties.getRead(), TimeUnit.MILLISECONDS));
+                    connection.addHandlerLast(new WriteTimeoutHandler(binanceRateParsingServiceTimeoutProperties.getWrite(), TimeUnit.MILLISECONDS));
+                });
+
+        return WebClient
+                .builder()
+                .baseUrl(binanceRateParsingServiceProperties.getUrl())
                 .clientConnector(new ReactorClientHttpConnector(HttpClient.from(tcpClient)))
                 .build();
     }

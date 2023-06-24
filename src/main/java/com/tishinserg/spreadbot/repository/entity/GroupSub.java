@@ -1,5 +1,6 @@
 package com.tishinserg.spreadbot.repository.entity;
 
+import com.tishinserg.spreadbot.models.RequestDetails;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,23 +13,28 @@ import java.util.List;
 @Entity
 @Table(name = "group_sub")
 @EqualsAndHashCode(exclude = "users")
-public class GroupSub {
+public class GroupSub implements Comparable<GroupSub> {
     @Id
-    @Column(name = "id")
+    @Column
     private Long id;
-    @Column(name = "tittle")
+
+    @Column
     private String tittle;
-    @Column(name = "service")
+
+    @Column
     private String service;
-    @Column(name = "country")
-    private String country;
+
     @Column(name = "currency_from")
     private String currencyFrom;
+
     @Column(name = "currency_to")
     private String currencyTo;
-    // колонка для последнего значения курса
+
     @Column(name = "last_rate")
     private BigDecimal lastRate;
+
+    @Embedded
+    private RequestDetails requestDetails;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -38,5 +44,8 @@ public class GroupSub {
     )
     private List<TelegramUser> users = new ArrayList<>();
 
-
+    @Override
+    public int compareTo(GroupSub o) {
+        return Long.compare(this.id, o.id);
+    }
 }

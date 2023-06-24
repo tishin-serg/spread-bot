@@ -1,8 +1,6 @@
-package com.tishinserg.spreadbot;
+package com.tishinserg.spreadbot.repository;
 
-import com.tishinserg.spreadbot.repository.UnistreamRateRepository;
 import com.tishinserg.spreadbot.repository.entity.UnistreamRate;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -36,13 +34,14 @@ public class UnistreamRateRepositoryIT {
         //given
         UnistreamRate givenUnistreamRate = new UnistreamRate();
         givenUnistreamRate.setId(2L);
-        givenUnistreamRate.setCurrency("USD");
+        givenUnistreamRate.setCurrencyFrom("USD");
+        givenUnistreamRate.setCurrencyTo("RUB");
         givenUnistreamRate.setCountry("GEO");
         givenUnistreamRate.setRate(BigDecimal.valueOf(77.01));
         givenUnistreamRate.setDate(LocalDateTime.of(2023, 3, 16, 23, 10, 0));
 
         //when
-        UnistreamRate unistreamRate = unistreamRateRepository.findLastRateCurrency("GEO", "USD");
+        UnistreamRate unistreamRate = unistreamRateRepository.findLastRateCurrency("GEO", "USD", "RUB").get();
 
         //then
         assertThat(unistreamRate).isEqualTo(givenUnistreamRate);
@@ -53,7 +52,8 @@ public class UnistreamRateRepositoryIT {
     public void shouldProperlySaveUnistreamRate() {
         //given
         UnistreamRate unistreamRate = new UnistreamRate();
-        unistreamRate.setCurrency("USD");
+        unistreamRate.setCurrencyFrom("USD");
+        unistreamRate.setCurrencyTo("RUB");
         unistreamRate.setCountry("GEO");
         unistreamRate.setRate(BigDecimal.valueOf(77.22));
         unistreamRate.setDate(LocalDateTime.of(2023, 3, 17, 0, 0, 0));

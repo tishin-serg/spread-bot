@@ -72,6 +72,10 @@ public class SubscribeCommandTest {
         String chatId = "12345";
         Long groupId = 1L;
 
+//        GroupSub groupSub = GroupSub.builder()
+//                .tittle("Юнистрим - Перевод в Грузию - USD/RUB")
+//                .lastRate(BigDecimal.valueOf(70.00))
+//                .build();
         GroupSub groupSub = new GroupSub();
         groupSub.setTittle("Юнистрим - Перевод в Грузию - USD/RUB");
         groupSub.setLastRate(BigDecimal.valueOf(70.00));
@@ -104,9 +108,10 @@ public class SubscribeCommandTest {
         when(message.getChatId()).thenReturn(Long.valueOf(chatId));
         when(message.getText()).thenReturn(CommandName.SUB.getCommandName());
 
+        // GroupSub groupSub = GroupSub.builder().id(1L).tittle("Юнистрим - Перевод в Грузию - USD/RUB").build();
         GroupSub groupSub = new GroupSub();
-        groupSub.setId(1L);
         groupSub.setTittle("Юнистрим - Перевод в Грузию - USD/RUB");
+        groupSub.setId(1L);
         String groupId = String.format("%s - %s \n",
                 groupSub.getTittle(),
                 groupSub.getId());

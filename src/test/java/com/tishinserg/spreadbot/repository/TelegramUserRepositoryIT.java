@@ -1,4 +1,4 @@
-package com.tishinserg.spreadbot;
+package com.tishinserg.spreadbot.repository;
 
 import com.tishinserg.spreadbot.repository.TelegramUserRepository;
 import com.tishinserg.spreadbot.repository.entity.TelegramUser;
