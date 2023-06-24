@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 /**
  * {@link Repository} for handling with {@link UnistreamRate } entity.
  */
@@ -13,7 +15,13 @@ public interface UnistreamRateRepository extends JpaRepository<UnistreamRate, Lo
 
     UnistreamRate findTopByOrderByIdDesc();
 
-    @Query(value = "SELECT * FROM uni_rate u WHERE u.country = :country AND u.currency = :currency ORDER BY u.date DESC LIMIT 1",
+    @Query(value = "SELECT * FROM uni_rate u " +
+            "WHERE u.country = :country " +
+            "AND u.currency_from = :currencyFrom " +
+            "AND u.currency_to = :currencyTo " +
+            "ORDER BY u.date DESC LIMIT 1",
             nativeQuery = true)
-    UnistreamRate findLastRateCurrency(@Param("country") String country, @Param("currency") String currency);
+    Optional<UnistreamRate> findLastRateCurrency(@Param("country") String country,
+                                                @Param("currencyFrom") String currencyFrom,
+                                                @Param("currencyTo") String currencyTo);
 }

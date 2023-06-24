@@ -55,4 +55,11 @@ public class GroupSubServiceImpl implements GroupSubService {
     public List<GroupSub> findAllGroups() {
         return groupSubRepository.findAll();
     }
+
+    @Override
+    public void saveAll(List<GroupSub> groupSubList) {
+        groupSubRepository.saveAll(groupSubList);
+    }
+
+
 }

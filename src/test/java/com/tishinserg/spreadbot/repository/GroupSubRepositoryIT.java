@@ -1,5 +1,6 @@
-package com.tishinserg.spreadbot;
+package com.tishinserg.spreadbot.repository;
 
+import com.tishinserg.spreadbot.models.RequestDetails;
 import com.tishinserg.spreadbot.repository.GroupSubRepository;
 import com.tishinserg.spreadbot.repository.entity.GroupSub;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,7 @@ public class GroupSubRepositoryIT {
         GroupSub givenGroupSub = new GroupSub();
         givenGroupSub.setId(3L);
         givenGroupSub.setService("unistream");
-        givenGroupSub.setCountry("GEO");
+        givenGroupSub.setRequestDetails(new RequestDetails("GEO"));
         givenGroupSub.setCurrencyFrom("USD");
         givenGroupSub.setCurrencyTo("RUB");
         givenGroupSub.setTittle("Юнистрим - Перевод в Грузию - USD/RUB");

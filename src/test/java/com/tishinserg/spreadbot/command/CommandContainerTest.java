@@ -16,7 +16,6 @@ import java.util.Arrays;
 @DisplayName("Unit-level testing for CommandContainer")
 class CommandContainerTest {
 
-
     private CommandContainer commandContainer;
 
     @BeforeEach

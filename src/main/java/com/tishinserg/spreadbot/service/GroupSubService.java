@@ -17,4 +17,6 @@ public interface GroupSubService {
 
     List<GroupSub> findAllGroups();
 
+    void saveAll(List<GroupSub> groupSubList);
+
 }

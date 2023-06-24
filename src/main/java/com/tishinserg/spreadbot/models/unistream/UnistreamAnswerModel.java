@@ -1,4 +1,4 @@
-package com.tishinserg.spreadbot.models;
+package com.tishinserg.spreadbot.models.unistream;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

@@ -22,6 +22,7 @@ public class FindRateUpdatesJob {
 
     @Scheduled(fixedRate = 300000)
     public void findRateUpdates() {
+
         LocalDateTime start = LocalDateTime.now();
 
         log.info("Find rates updates job started.");

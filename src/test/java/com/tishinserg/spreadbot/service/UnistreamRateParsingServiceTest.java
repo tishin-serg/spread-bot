@@ -1,4 +1,4 @@
-package com.tishinserg.spreadbot;
+package com.tishinserg.spreadbot.service;
 
 
 import com.tishinserg.spreadbot.parsing.UnistreamRateParsingService;
@@ -8,18 +8,19 @@ import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.json.BasicJsonTester;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.http.HttpHeaders;
+import reactor.test.StepVerifier;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UnistreamRateParsingServiceTest {
-    private final BasicJsonTester json = new BasicJsonTester(this.getClass());
     private MockWebServer mockWebServer;
     private UnistreamRateParsingService unistreamRateParsingService;
     private final static String TOKEN = "Bearer 5a48ece0c457d11ee87f520e20ad68d6f28cb2e6aeae397ea92d4cb550cf2545";
@@ -39,12 +40,16 @@ public class UnistreamRateParsingServiceTest {
     @Test
     void makesTheCorrectRequest() throws InterruptedException {
         mockWebServer.enqueue(
-                new MockResponse().setResponseCode(200)
+                new MockResponse()
+                        .setResponseCode(HttpStatus.OK.value())
                         .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-                        .setBody(getJson("message-response.json"))
+                        .setBody(getJson("unistream-message-response.json"))
         );
 
-        unistreamRateParsingService.getRate("GEO", "USD", "RUB");
+        // unistreamRateParsingService.getRate("GEO", "USD", "RUB").block();
+        StepVerifier.create(unistreamRateParsingService.getRate("GEO", "USD", "RUB"))
+                .expectNextMatches(rate -> rate.getCurrencyFrom().equals("USD") && rate.getCurrencyTo().equals("RUB"))
+                .verifyComplete();
 
         RecordedRequest request = mockWebServer.takeRequest();
         assertThat(request.getMethod()).isEqualTo("GET");
@@ -54,12 +59,12 @@ public class UnistreamRateParsingServiceTest {
     }
 
     private String getJson(String path) {
-        try {
-            InputStream jsonStream = this.getClass().getClassLoader().getResourceAsStream(path);
+        try (InputStream jsonStream = this.getClass().getClassLoader().getResourceAsStream(path)) {
             assert jsonStream != null;
-            return new String(jsonStream.readAllBytes());
+            return new String(jsonStream.readAllBytes(), StandardCharsets.UTF_8);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
     }
+
 }
