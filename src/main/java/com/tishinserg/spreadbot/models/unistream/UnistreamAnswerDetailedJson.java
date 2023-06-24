@@ -1,4 +1,4 @@
-package com.tishinserg.spreadbot.models;
+package com.tishinserg.spreadbot.models.unistream;
 
 import lombok.Data;
 

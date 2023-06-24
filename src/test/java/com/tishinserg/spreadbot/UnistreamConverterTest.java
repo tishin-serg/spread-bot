@@ -1,37 +1,33 @@
 package com.tishinserg.spreadbot;
 
 import com.tishinserg.spreadbot.converters.UnistreamConverter;
-import com.tishinserg.spreadbot.models.UnistreamAnswerDetailedJson;
+import com.tishinserg.spreadbot.models.unistream.UnistreamAnswerDetailedJson;
 import com.tishinserg.spreadbot.repository.entity.UnistreamRate;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class UnistreamConverterTest {
 
-    private UnistreamConverter unistreamConverter;
 
     @Test
     void shouldProperlyConvertJsonToEntity() {
-        //given
-        UnistreamRate givenEntity = new UnistreamRate();
-        givenEntity.setCurrency("USD");
-        givenEntity.setCountry("GEO");
-        givenEntity.setRate(BigDecimal.valueOf(43.48));
-        givenEntity.setDate(LocalDateTime.now());
+        // given
+        UnistreamAnswerDetailedJson inputJson = new UnistreamAnswerDetailedJson();
+        inputJson.setWithdrawCurrency("USD");
+        inputJson.setAcceptedAmount(100.00);
+        inputJson.setWithdrawAmount(20.00);
 
-        UnistreamAnswerDetailedJson givenJson = new UnistreamAnswerDetailedJson();
-        givenJson.setWithdrawCurrency("USD");
-        givenJson.setAcceptedAmount(1000.0);
-        givenJson.setWithdrawAmount(23.0);
+        // when
+        UnistreamRate outputRate = UnistreamConverter.jSonToEntity(inputJson, "GEO");
 
-        //when
-        UnistreamRate converted = UnistreamConverter.jSonToEntity(givenJson, "GEO");
-
-        //then
-        Assertions.assertEquals(givenEntity.getRate(), converted.getRate());
-        Assertions.assertEquals(givenEntity.getCurrency(), converted.getCurrency());
+        // then
+        assertEquals("GEO", outputRate.getCountry());
+        assertEquals("USD", outputRate.getCurrencyFrom());
+        assertEquals(new BigDecimal("5.00"), outputRate.getRate());
+        assertNotNull(outputRate.getDate());
     }
 }

@@ -61,7 +61,10 @@ public class SubscribeCommand implements Command {
         }
         GroupSub groupSub = groupSubService.subscribe(chatId, groupId);
         String subscribeName = groupSub.getTittle();
-        String currentRate = String.format("%s руб.", groupSub.getLastRate().toString());
+        String currentRate = "";
+        if (groupSub.getLastRate() != null) {
+            currentRate = String.format("%s руб.", groupSub.getLastRate().toString());
+        }
         sendBotMessageService.sendMessage(chatId, String.format(SUB_MESSAGE, subscribeName, currentRate));
     }
 
@@ -71,6 +74,7 @@ public class SubscribeCommand implements Command {
 
     private void sendGroupIdList(String chatId) {
         String groupIds = groupSubService.findAllGroups().stream()
+                .sorted()
                 .map(groupSub -> String.format("%s - %s \n",
                         groupSub.getTittle(),
                         groupSub.getId()))

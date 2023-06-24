@@ -1,5 +1,6 @@
 package com.tishinserg.spreadbot.service;
 
+import com.tishinserg.spreadbot.models.RequestDetails;
 import com.tishinserg.spreadbot.repository.GroupSubRepository;
 import com.tishinserg.spreadbot.repository.entity.GroupSub;
 import com.tishinserg.spreadbot.repository.entity.TelegramUser;
@@ -39,7 +40,7 @@ class GroupSubServiceTest {
         GroupSub givenGroupSub = new GroupSub();
         givenGroupSub.setId(1L);
         givenGroupSub.setService("unistream");
-        givenGroupSub.setCountry("GEO");
+        givenGroupSub.setRequestDetails(new RequestDetails("GEO"));
         givenGroupSub.setCurrencyFrom("USD");
         givenGroupSub.setCurrencyTo("RUB");
         givenGroupSub.setLastRate(BigDecimal.valueOf(70.00));
@@ -61,7 +62,7 @@ class GroupSubServiceTest {
         GroupSub givenGroupSub = new GroupSub();
         givenGroupSub.setId(1L);
         givenGroupSub.setService("unistream");
-        givenGroupSub.setCountry("GEO");
+        givenGroupSub.setRequestDetails(new RequestDetails("GEO"));
         givenGroupSub.setCurrencyFrom("USD");
         givenGroupSub.setCurrencyTo("RUB");
         givenGroupSub.setLastRate(BigDecimal.valueOf(70.00));
@@ -90,7 +91,7 @@ class GroupSubServiceTest {
         GroupSub groupSub = new GroupSub();
         groupSub.setId(1L);
         groupSub.setService("unistream");
-        groupSub.setCountry("GEO");
+        groupSub.setRequestDetails(new RequestDetails("GEO"));
         groupSub.setCurrencyFrom("USD");
         groupSub.setCurrencyTo("RUB");
         groupSub.setLastRate(BigDecimal.valueOf(100.00));
@@ -118,7 +119,7 @@ class GroupSubServiceTest {
         GroupSub groupSub = new GroupSub();
         groupSub.setId(1L);
         groupSub.setService("unistream");
-        groupSub.setCountry("GEO");
+        groupSub.setRequestDetails(new RequestDetails("GEO"));
         groupSub.setCurrencyFrom("USD");
         groupSub.setCurrencyTo("RUB");
         groupSub.setLastRate(BigDecimal.valueOf(100.00));
@@ -149,7 +150,7 @@ class GroupSubServiceTest {
         GroupSub groupSub1 = new GroupSub();
         groupSub1.setId(1L);
         groupSub1.setService("unistream");
-        groupSub1.setCountry("GEO");
+        groupSub1.setRequestDetails(new RequestDetails("GEO"));
         groupSub1.setCurrencyFrom("USD");
         groupSub1.setCurrencyTo("RUB");
         groupSub1.setLastRate(BigDecimal.valueOf(70.00));
@@ -158,7 +159,7 @@ class GroupSubServiceTest {
         GroupSub groupSub2 = new GroupSub();
         groupSub2.setId(2L);
         groupSub2.setService("unistream");
-        groupSub2.setCountry("GEO");
+        groupSub2.setRequestDetails(new RequestDetails("GEO"));
         groupSub2.setCurrencyFrom("GEL");
         groupSub2.setCurrencyTo("RUB");
         groupSub2.setLastRate(BigDecimal.valueOf(30.00));
@@ -167,7 +168,7 @@ class GroupSubServiceTest {
         GroupSub groupSub3 = new GroupSub();
         groupSub3.setId(3L);
         groupSub3.setService("unistream");
-        groupSub3.setCountry("GEO");
+        groupSub3.setRequestDetails(new RequestDetails("GEO"));
         groupSub3.setCurrencyFrom("EUR");
         groupSub3.setCurrencyTo("RUB");
         groupSub3.setLastRate(BigDecimal.valueOf(80.00));
