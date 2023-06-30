@@ -60,7 +60,7 @@ public class FindRateUpdatesServiceTest {
 //    }
 
     @Test
-    public void shouldProperlySendMessageIfRateChange() {
+    public void shouldProperlySendMessageIfRateChange() throws InterruptedException {
         //given
         GroupSub groupSub = new GroupSub();
         groupSub.setService("unistream");

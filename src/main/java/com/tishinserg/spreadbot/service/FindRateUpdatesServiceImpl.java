@@ -12,9 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,14 +38,15 @@ public class FindRateUpdatesServiceImpl implements FindRateUpdatesService {
                 .sorted(Comparator.comparing(GroupSub::getId))
                 .collect(Collectors.toList());
         ExecutorService executorService = Executors.newFixedThreadPool(groupSubs.size());
-        groupSubs.forEach(groupSub -> executorService.submit(() -> compareRatesAndNotify(groupSub)));
+        groupSubs.forEach(groupSub -> executorService.submit(() -> {
+            compareRatesAndNotify(groupSub);
+        }));
         executorService.shutdown();
         try {
             executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
         } catch (InterruptedException e) {
             // обработка исключения
         }
-
     }
 
     private void sendFormattedMessage(GroupSub groupSub, Rate currentRate, Boolean isHigher) {
@@ -69,6 +68,7 @@ public class FindRateUpdatesServiceImpl implements FindRateUpdatesService {
 
     public void compareRatesAndNotify(GroupSub groupSub) {
         RateService rateService = rateServiceFactory.createInstance(groupSub.getService());
+        // if (groupSub.getService().equals("unistream")) return;
         rateService.getCurrentRate(groupSub).thenAccept(rate -> {
             Optional<Rate> lastRate = rateService.getLastRate(groupSub);
             if (lastRate.isPresent() && rateService.compareRates(lastRate.get(), rate)) {

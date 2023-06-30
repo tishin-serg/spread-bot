@@ -5,12 +5,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class RateServiceFactory {
     private final UnistreamRateService unistreamRateService;
-    //    private final KoronaPayRateService koronaPayRateService;
+    private final KoronaPayRateService koronaPayRateService;
     private final BinanceRateService binanceRateService;
 
 
-    public RateServiceFactory(UnistreamRateService unistreamRateService, BinanceRateService binanceRateService) {
+    public RateServiceFactory(UnistreamRateService unistreamRateService, KoronaPayRateService koronaPayRateService, BinanceRateService binanceRateService) {
         this.unistreamRateService = unistreamRateService;
+        this.koronaPayRateService = koronaPayRateService;
         this.binanceRateService = binanceRateService;
     }
 
@@ -18,8 +19,8 @@ public class RateServiceFactory {
         switch (service) {
             case "unistream":
                 return unistreamRateService;
-//            case "korona":
-//                return koronaPayRateService;
+            case "koronapay":
+                return koronaPayRateService;
             case "binance":
                 return binanceRateService;
             default:
