@@ -1,3 +1,11 @@
+## 0.8.0-SNAPSHOT
+
+* SB-8: added koronapay parsing service and repository
+
+## 0.7.0-SNAPSHOT
+
+* SB-7: added binance parsing service and repository
+
 ## 0.6.0-SNAPSHOT
 
 *   SB-6: added ability for subscribe for changing rates

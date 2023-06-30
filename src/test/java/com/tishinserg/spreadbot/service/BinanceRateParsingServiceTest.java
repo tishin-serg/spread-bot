@@ -8,6 +8,7 @@ import com.tishinserg.spreadbot.parsing.BinanceRateParsingService;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -72,6 +73,11 @@ public class BinanceRateParsingServiceTest {
         String actualBody = new String(request.getBody().readByteArray(), StandardCharsets.UTF_8);
         assertThat(request.getMethod()).isEqualTo("POST");
         assertThat(actualBody).isEqualTo(expectedBody);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        mockWebServer.shutdown();
     }
 
     private String getJson(String path) {

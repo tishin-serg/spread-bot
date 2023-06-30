@@ -6,6 +6,7 @@ import com.tishinserg.spreadbot.properties.UnistreamRateParsingServiceProperties
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -52,10 +53,19 @@ public class UnistreamRateParsingServiceTest {
                 .verifyComplete();
 
         RecordedRequest request = mockWebServer.takeRequest();
+        String query = request.getRequestUrl().query();
         assertThat(request.getMethod()).isEqualTo("GET");
+        assertThat(query.contains("destination=GEO"));
+        assertThat(query.contains("currency=USD"));
+        assertThat(query.contains("accepted_currency=RUB"));
         assertThat(request.getHeader("authorization")).isEqualTo(TOKEN);
         assertThat(request.getHeader("user-agent")).isEqualTo(USER_AGENT);
         assertThat(request.getRequestUrl().querySize()).isEqualTo(7);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        mockWebServer.shutdown();
     }
 
     private String getJson(String path) {
