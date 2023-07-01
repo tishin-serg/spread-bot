@@ -24,7 +24,7 @@ public class BinanceRequest {
     public BinanceRequest(String bank, String asset, String fiat, String tradeType) {
         this.proMerchantAds = false;
         this.page = 1;
-        this.rows = 10;
+        this.rows = 20;
         this.payTypes = new String[]{bank};
         this.countries = new String[]{};
         this.publisherType = null;

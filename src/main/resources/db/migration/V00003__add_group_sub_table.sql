@@ -35,7 +35,6 @@ INSERT INTO group_sub (tittle,service,request_details_country,currency_from,curr
                 ('Юнистрим - Перевод в Армения - AMD/RUB', 'unistream','ARM','AMD','RUB'),
                 ('Юнистрим - Перевод в Армения - EUR/RUB', 'unistream','ARM','EUR','RUB'),
                 ('Юнистрим - Перевод в Казахстан - USD/RUB', 'unistream','KAZ','USD','RUB'),
-                ('Юнистрим - Перевод в Казахстан - EUR/RUB', 'unistream','KAZ','EUR','RUB'),
                 ('Юнистрим - Перевод в Казахстан - KZT/RUB', 'unistream','KAZ','KZT','RUB'),
                 ('Юнистрим - Перевод в Молдавию - USD/RUB', 'unistream','MDA','USD','RUB'),
                 ('Юнистрим - Перевод в Молдавию - EUR/RUB', 'unistream','MDA','EUR','RUB'),

@@ -1,3 +1,7 @@
+## 0.8.1-SNAPSHOT
+
+* SB-9: fixed unistream request
+
 ## 0.8.0-SNAPSHOT
 
 * SB-8: added koronapay parsing service and repository
