@@ -54,6 +54,8 @@ public class SpreadBotTelegram extends TelegramLongPollingBot {
                 commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
             }
 
+            // проверить на нажатие кнопки здесь
+
 
         }
     }
